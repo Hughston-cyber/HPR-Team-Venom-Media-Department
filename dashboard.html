@@ -42,6 +42,24 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 .dropzone strong{display:block;color:var(--green);font:700 20px var(--display);text-transform:uppercase;margin-bottom:5px}
 .selected-files{font:9px var(--mono);color:var(--muted);line-height:1.8;max-height:100px;overflow:auto}
 .media-admin{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.analytics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.analytics-card{border:1px solid var(--line);background:#0c130e;padding:15px}
+.analytics-card strong{display:block;font:700 30px var(--display);color:var(--green)}
+.analytics-card span{font:9px var(--mono);letter-spacing:.1em;color:var(--muted)}
+.album-grid,.video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.album-card{border:1px solid var(--line);background:#0a100c;overflow:hidden;cursor:pointer}
+.album-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.album-card div{padding:12px}
+.album-card b{font:700 20px var(--display);display:block;text-transform:uppercase}
+.album-card span{font:9px var(--mono);color:var(--muted)}
+.album-card.active{border-color:var(--green)}
+.video-card{border:1px solid var(--line);background:#080e0a;overflow:hidden}
+.video-card video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.video-card .photo-meta{padding:12px}
+.video-upload{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:15px 0}
+.video-upload .wide{grid-column:1/-1}
+@media(max-width:800px){.analytics-grid{grid-template-columns:repeat(2,1fr)}.album-grid,.video-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.album-grid,.video-grid{grid-template-columns:1fr}.video-upload{grid-template-columns:1fr}.video-upload .wide{grid-column:auto}}
 .member-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:11px}
 .member-row button{background:transparent;border:1px solid #536255;color:#d8e1d8;padding:6px 9px;font:9px var(--mono);cursor:pointer}
 @media(max-width:800px){.media-tools{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}}
@@ -56,7 +74,9 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 <header><div class="shell nav"><a class="brand" href="index.html"><span class="mark">V</span><span><strong>TEAM VENOM</strong><small>HPR // MEDIA DEPARTMENT</small></span></a><div class="navright"><div class="user"><b id="memberName">MEMBER</b><span id="memberRole">APPROVED MEMBER</span></div><button class="signout" id="signOut">SIGN OUT ↗</button></div></div></header>
 <main class="shell">
 <section class="welcome"><div><div class="eyebrow">MEDIA OPERATIONS // PRIVATE WORKSPACE</div><h1>Command <span style="color:var(--green)">centre.</span></h1><p>Welcome back. This is your workspace for the stories, content and creative output behind Team Venom.</p></div><div class="live">● MEMBER SESSION ACTIVE</div></section>
-<div class="stats"><div class="stat"><strong>2026</strong><span>SEASON ARCHIVE</span></div><div class="stat"><strong>TEAM 355</strong><span>TEAM VENOM HPR</span></div><div class="stat"><strong>MEDIA</strong><span>DEPARTMENT ACCESS</span></div></div>
+<div class="stats"><div class="stat"><strong id="statPhotos">—</strong><span>PHOTOGRAPHS</span></div><div class="stat"><strong id="statVideos">—</strong><span>VIDEOS</span></div><div class="stat"><strong id="statEvents">—</strong><span>EVENT ALBUMS</span></div></div>
+<div class="sectionhead"><div><div class="eyebrow">LIVE // DEPARTMENT PERFORMANCE</div><h2>Media analytics</h2></div><p>Private archive totals · refreshes with the library</p></div>
+<div class="analytics-grid"><div class="analytics-card"><strong id="analyticsPhotos">—</strong><span>TOTAL PHOTOS</span></div><div class="analytics-card"><strong id="analyticsVideos">—</strong><span>TOTAL VIDEOS</span></div><div class="analytics-card"><strong id="analyticsEvents">—</strong><span>EVENTS COVERED</span></div><div class="analytics-card"><strong id="analyticsContributors">—</strong><span>CONTRIBUTORS</span></div></div>
 <div class="sectionhead"><div><div class="eyebrow">01 // YOUR WORKSPACE</div><h2>Media departments</h2></div><p>Choose a workspace to explore</p></div>
 <div class="grid">
 <a class="card" href="#photography" data-no="01"><div class="cardtop"><span class="icon">▧</span><span class="arrow">↗</span></div><h3>Photography</h3><p>Race-day galleries, team portraits, behind-the-scenes moments and selected photo collections.</p><span class="cardfoot">OPEN PHOTO ARCHIVE →</span></a>
@@ -80,7 +100,7 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 <div class="media-tools">
 <div class="media-form">
 <div><label for="photoEvent">EVENT / ALBUM</label><input id="photoEvent" maxlength="100" placeholder="e.g. Sandown 2026"></div>
-<div><label for="photoTitle">PHOTO TITLE</label><input id="photoTitle" maxlength="160" placeholder="e.g. Grid preparation"></div>
+<div><label for="photoDate">EVENT DATE (OPTIONAL)</label><input id="photoDate" type="date"></div>\n<div><label for="photoTitle">PHOTO TITLE</label><input id="photoTitle" maxlength="160" placeholder="e.g. Grid preparation"></div>
 <div><label for="photoCaption">CAPTION (OPTIONAL)</label><textarea id="photoCaption" maxlength="1000" placeholder="Add a little context to this collection…"></textarea></div>
 <div><label>DROP A FOLDER OR SELECT ONE</label><div class="dropzone" id="photoDrop" tabindex="0" role="button" aria-label="Choose or drop a folder of photos"><strong>＋ DROP PHOTO FOLDER HERE</strong>Drag a folder into this area, or click to choose a folder.<br>JPG · PNG · WEBP · GIF · HEIC · AVIF · MAX 25 MB EACH</div><input id="photoFiles" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/avif" multiple webkitdirectory directory hidden><div class="selected-files" id="selectedFiles">No folder selected.</div></div>
 <button class="media-btn" id="uploadPhotos" type="button">UPLOAD TO PRIVATE ARCHIVE ↗</button>
@@ -103,7 +123,16 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 <div class="media-status" id="mediaAdminStatus" aria-live="polite"></div>
 </div>
 </section>
-<section class="panel" id="video"><div class="eyebrow">02 // VIDEO PRODUCTION</div><h3>Video library</h3><p class="empty">The video workspace is ready for race highlights, event recaps and production edits. Protected video storage and publishing tools are not connected yet.</p></section>
+<section class="panel" id="video" style="grid-column:1/-1"><div class="eyebrow">02 // VIDEO PRODUCTION</div><h3>Private video library</h3><p class="empty">Race highlights, onboard footage, interviews and finished productions. Videos are private and visible only to approved team members.</p>
+<div id="videoUploader" hidden><div class="video-upload">
+<div><label for="videoEvent" style="font:9px var(--mono);color:#a8b6aa">EVENT / ALBUM</label><input id="videoEvent" maxlength="100" placeholder="e.g. Sandown 2026"></div>
+<div><label for="videoDate" style="font:9px var(--mono);color:#a8b6aa">EVENT DATE</label><input id="videoDate" type="date"></div>
+<div><label for="videoTitle" style="font:9px var(--mono);color:#a8b6aa">VIDEO TITLE</label><input id="videoTitle" maxlength="160" placeholder="e.g. Race highlights"></div>
+<div><label for="videoFile" style="font:9px var(--mono);color:#a8b6aa">VIDEO FILE (MP4 / MOV / WEBM · MAX 100 MB)</label><input id="videoFile" type="file" accept="video/mp4,video/quicktime,video/webm"></div>
+<button class="media-btn wide" id="uploadVideo" type="button">UPLOAD VIDEO TO PRIVATE LIBRARY ↗</button><div id="videoStatus" class="media-status wide"></div></div></div>
+<div id="videoNoUpload" class="notice">VIEW MODE // Video uploads are restricted to designated Media Department members.</div>
+<div class="sectionhead"><div><div class="eyebrow">LIBRARY // 02</div><h2>Published videos</h2></div><p id="videoCount">Loading library…</p></div><div id="videoGallery" class="video-grid"><p class="empty">Loading videos…</p></div>
+</section>
 <section class="panel" id="design"><div class="eyebrow">03 // GRAPHICS & DESIGN</div><h3>Design studio</h3><p class="empty">The design workspace is ready for posters, campaign artwork, presentations and team assets. A private asset library will be connected here.</p></section>
 <section class="panel" id="communications"><div class="eyebrow">04 // COMMUNICATIONS</div><h3>Comms desk</h3><p class="empty">The communications workspace is ready for bulletins, announcements and media releases. Published team announcements are shown in the feed above.</p></section>
 <section class="panel" id="archive"><div class="eyebrow">05 // PUBLISHING & ARCHIVE</div><h3>Season archive</h3><p class="empty">The archive will organise approved media by event, date and content type once private storage is configured.</p></section>
@@ -154,18 +183,18 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
   el('grantMediaAccess').addEventListener('click',async()=>{const userId=el('mediaMemberSelect').value;if(!userId){el('mediaAdminStatus').textContent='Choose a member first.';return;}const {error}=await client.from('media_department_members').insert({user_id:userId,granted_by:userData.user.id});el('mediaAdminStatus').textContent=error?'Could not grant access. Check captain permissions.':'Media upload access granted.';await loadMediaAdmin();});
   async function loadPhotos(){
     const gallery=el('photoGallery');gallery.replaceChildren();
-    const {data:photos,error}=await client.from('media_photos').select('id,event_name,title,caption,object_path,uploaded_by,created_at').order('created_at',{ascending:false}).limit(120);
+    const {data:photos,error}=await client.from('media_photos').select('id,event_name,event_date,title,caption,object_path,uploaded_by,created_at').order('event_date',{ascending:false}).order('created_at',{ascending:false}).limit(500);
     if(error){gallery.textContent='The private photo archive could not be loaded.';el('photoCount').textContent='Unavailable';return;}
     el('photoCount').textContent=(photos?.length||0)+' PHOTOS';
     if(!photos||!photos.length){const p=document.createElement('p');p.className='empty';p.textContent='No photos have been uploaded yet. The first race gallery is ready to go.';gallery.append(p);return;}
     for(const photo of photos){
       const {data:signed,error:signError}=await client.storage.from(mediaBucket).createSignedUrl(photo.object_path,3600);
       if(signError||!signed)continue;
-      const card=document.createElement('article');card.className='photo-card';
+      const card=document.createElement('article');card.className='photo-card';card.dataset.album=photo.event_name+'|'+(photo.event_date||'');
       const img=document.createElement('img');img.loading='lazy';img.src=signed.signedUrl;img.alt=photo.title;
       const meta=document.createElement('div');meta.className='photo-meta';
       const title=document.createElement('b');title.textContent=photo.title;
-      const event=document.createElement('span');event.textContent=photo.event_name+' · '+new Date(photo.created_at).toLocaleDateString('en-AU');
+      const event=document.createElement('span');event.textContent=photo.event_name+' · '+(photo.event_date?new Date(photo.event_date+'T00:00:00').toLocaleDateString('en-AU'):'Date not recorded')+' · uploaded '+new Date(photo.created_at).toLocaleDateString('en-AU');
       meta.append(title,event);
       if(photo.caption){const caption=document.createElement('p');caption.textContent=photo.caption;meta.append(caption);}
       const actions=document.createElement('div');actions.className='photo-actions';
@@ -200,8 +229,38 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
     if(entries.length){const files=[];for(const entry of entries)files.push(...await readDroppedEntry(entry));const folder=entries.length===1&&entries[0].isDirectory?entries[0].name:'';setSelectedPhotos(files,folder);}
     else setSelectedPhotos(e.dataTransfer.files);
   });
+  async function updateAnalytics(photos){
+    const {data:videos}=await client.from('media_videos').select('id,event_name,uploaded_by');
+    const uniqueEvents=new Set([...(photos||[]).map(p=>p.event_name),...(videos||[]).map(v=>v.event_name)]);
+    const contributors=new Set([...(photos||[]).map(p=>p.uploaded_by),...(videos||[]).map(v=>v.uploaded_by)]);
+    const vals={statPhotos:(photos||[]).length,statVideos:(videos||[]).length,statEvents:uniqueEvents.size,analyticsPhotos:(photos||[]).length,analyticsVideos:(videos||[]).length,analyticsEvents:uniqueEvents.size,analyticsContributors:contributors.size};
+    Object.entries(vals).forEach(([id,value])=>{if(el(id))el(id).textContent=String(value);});
+  }
+  async function loadVideos(){
+    const gallery=el('videoGallery');gallery.replaceChildren();
+    const {data:videos,error}=await client.from('media_videos').select('id,event_name,event_date,title,description,object_path,uploaded_by,created_at').order('created_at',{ascending:false}).limit(100);
+    if(error){el('videoCount').textContent='Unavailable';gallery.textContent='The private video library could not be loaded.';return;}
+    el('videoCount').textContent=(videos||[]).length+' VIDEOS';
+    if(!videos?.length){const p=document.createElement('p');p.className='empty';p.textContent='No videos uploaded yet.';gallery.append(p);return;}
+    for(const video of videos){
+      const {data:signed,error:signError}=await client.storage.from(videoBucket).createSignedUrl(video.object_path,3600);if(signError||!signed)continue;
+      const card=document.createElement('article');card.className='video-card';const player=document.createElement('video');player.controls=true;player.preload='metadata';player.src=signed.signedUrl;
+      const meta=document.createElement('div');meta.className='photo-meta';const title=document.createElement('b');title.textContent=video.title;const event=document.createElement('span');event.textContent=video.event_name+' · '+(video.event_date||'Date not recorded');meta.append(title,event);if(video.description){const desc=document.createElement('p');desc.textContent=video.description;meta.append(desc);}
+      card.append(player,meta);
+      if(video.uploaded_by===userData.user.id||isMediaAdmin){const actions=document.createElement('div');actions.className='photo-actions';const del=document.createElement('button');del.textContent='DELETE VIDEO';del.onclick=async()=>{if(!confirm('Delete this video from the private library?'))return;del.disabled=true;const {error:removeError}=await client.storage.from(videoBucket).remove([video.object_path]);if(removeError){alert('Could not delete video.');del.disabled=false;return;}await client.from('media_videos').delete().eq('id',video.id);await loadVideos();};actions.append(del);card.append(actions);}
+      gallery.append(card);
+    }
+  }
+  el('uploadVideo').addEventListener('click',async()=>{
+    const file=el('videoFile').files?.[0],eventName=el('videoEvent').value.trim(),eventDate=el('videoDate').value||null,title=el('videoTitle').value.trim(),status=el('videoStatus'),button=el('uploadVideo');
+    if(!mediaMembership){status.textContent='Upload access is limited to Media Department members.';return;}
+    if(!file||!eventName||!title){status.textContent='Add an event, title and video file.';return;}
+    if(!['video/mp4','video/quicktime','video/webm'].includes(file.type)||file.size>100*1024*1024){status.textContent='Choose an MP4, MOV or WEBM video under 100 MB.';return;}
+    button.disabled=true;status.textContent='Uploading video…';
+    try{const ext=file.name.split('.').pop().toLowerCase().replace(/[^a-z0-9]/g,'')||'mp4';const path=userData.user.id+'/'+crypto.randomUUID()+'.'+ext;const {error:uploadError}=await client.storage.from(videoBucket).upload(path,file,{contentType:file.type,upsert:false});if(uploadError)throw uploadError;const {error:insertError}=await client.from('media_videos').insert({event_name:eventName,event_date:eventDate,title,description:'',object_path:path,uploaded_by:userData.user.id});if(insertError){await client.storage.from(videoBucket).remove([path]);throw insertError;}status.textContent='Video uploaded successfully.';el('videoFile').value='';await loadVideos();}catch(error){status.textContent='Upload failed: '+(error.message||'try again');}finally{button.disabled=false;}
+  });
   el('uploadPhotos').addEventListener('click',async()=>{
-    const files=selectedPhotoFiles;const eventName=el('photoEvent').value.trim();const titleBase=el('photoTitle').value.trim();const caption=el('photoCaption').value.trim();const status=el('uploadStatus');const button=el('uploadPhotos');
+    const files=selectedPhotoFiles;const eventName=el('photoEvent').value.trim();const titleBase=el('photoTitle').value.trim();const caption=el('photoCaption').value.trim();const eventDate=el('photoDate').value||null;const status=el('uploadStatus');const button=el('uploadPhotos');
     if(!mediaMembership){status.textContent='Upload access is limited to Media Department members.';return;}
     if(!eventName||!titleBase||!files.length){status.textContent='Add an event, title and at least one photo.';return;}
     const allowed=['image/jpeg','image/png','image/webp','image/gif','image/heic','image/avif'];
@@ -215,7 +274,7 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
         const {error:uploadError}=await client.storage.from(mediaBucket).upload(path,file,{contentType:file.type,upsert:false});
         if(uploadError)throw uploadError;
         const photoTitle=files.length===1?titleBase:titleBase+' ('+(i+1)+')';
-        const {error:insertError}=await client.from('media_photos').insert({event_name:eventName,title:photoTitle,caption,object_path:path,uploaded_by:userData.user.id});
+        const {error:insertError}=await client.from('media_photos').insert({event_name:eventName,event_date:eventDate,title:photoTitle,caption,object_path:path,uploaded_by:userData.user.id});
         if(insertError){await client.storage.from(mediaBucket).remove([path]);throw insertError;}
         complete++;
       }
