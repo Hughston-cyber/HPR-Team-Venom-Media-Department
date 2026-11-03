@@ -131,7 +131,7 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 
   // Private photo archive: visibility and upload rights are enforced by Supabase RLS.
   const mediaBucket='team-venom-media';
-  const isMediaAdmin=['captain','leadership'].includes(profile.role);
+  const isMediaAdmin=profile.role==='captain';
   const {data:mediaMembership}=await client.from('media_department_members').select('user_id').eq('user_id',userData.user.id).maybeSingle();
   if(mediaMembership){el('mediaUploader').hidden=false;el('mediaNoUpload').hidden=true;}
   if(isMediaAdmin){el('mediaAdmin').hidden=false;await loadMediaAdmin();}
