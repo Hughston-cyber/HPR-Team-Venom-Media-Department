@@ -37,6 +37,10 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 .photo-meta p{font-size:11px;color:#bac6bb;margin:7px 0 0;line-height:1.5}
 .photo-actions{display:flex;gap:10px;padding:0 11px 11px;font:9px var(--mono);color:var(--green)}
 .photo-actions button{border:0;background:none;color:var(--green);font:inherit;cursor:pointer;padding:0}
+.dropzone{border:1px dashed #78906f;background:#b9ed5b08;padding:25px 18px;text-align:center;color:var(--muted);font-size:11px;cursor:pointer;transition:.2s}
+.dropzone.dragover{border-color:var(--green);background:#b9ed5b18;color:var(--green)}
+.dropzone strong{display:block;color:var(--green);font:700 20px var(--display);text-transform:uppercase;margin-bottom:5px}
+.selected-files{font:9px var(--mono);color:var(--muted);line-height:1.8;max-height:100px;overflow:auto}
 .media-admin{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
 .member-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:11px}
 .member-row button{background:transparent;border:1px solid #536255;color:#d8e1d8;padding:6px 9px;font:9px var(--mono);cursor:pointer}
@@ -78,7 +82,7 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 <div><label for="photoEvent">EVENT / ALBUM</label><input id="photoEvent" maxlength="100" placeholder="e.g. Sandown 2026"></div>
 <div><label for="photoTitle">PHOTO TITLE</label><input id="photoTitle" maxlength="160" placeholder="e.g. Grid preparation"></div>
 <div><label for="photoCaption">CAPTION (OPTIONAL)</label><textarea id="photoCaption" maxlength="1000" placeholder="Add a little context to this collection…"></textarea></div>
-<div><label for="photoFiles">SELECT PHOTOS (JPG, PNG, WEBP, GIF, HEIC, AVIF · MAX 25 MB EACH)</label><input id="photoFiles" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/avif" multiple></div>
+<div><label>DROP A FOLDER OR SELECT ONE</label><div class="dropzone" id="photoDrop" tabindex="0" role="button" aria-label="Choose or drop a folder of photos"><strong>＋ DROP PHOTO FOLDER HERE</strong>Drag a folder into this area, or click to choose a folder.<br>JPG · PNG · WEBP · GIF · HEIC · AVIF · MAX 25 MB EACH</div><input id="photoFiles" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/avif" multiple webkitdirectory directory hidden><div class="selected-files" id="selectedFiles">No folder selected.</div></div>
 <button class="media-btn" id="uploadPhotos" type="button">UPLOAD TO PRIVATE ARCHIVE ↗</button>
 <div class="media-status" id="uploadStatus" aria-live="polite"></div>
 </div>
@@ -171,8 +175,31 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
       card.append(img,meta,actions);gallery.append(card);
     }
   }
+  let selectedPhotoFiles=[];
+  const photoDrop=el('photoDrop');
+  const photoInput=el('photoFiles');
+  function setSelectedPhotos(files){
+    selectedPhotoFiles=Array.from(files||[]).filter(f=>f&&f.size>0);
+    const label=el('selectedFiles');
+    label.textContent=selectedPhotoFiles.length?selectedPhotoFiles.length+' photo file(s) selected · '+selectedPhotoFiles.reduce((n,f)=>n+f.size,0)/1024/1024 .toFixed(1)+' MB':'No folder selected.';
+  }
+  photoDrop.addEventListener('click',()=>photoInput.click());
+  photoDrop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();photoInput.click();}});
+  photoInput.addEventListener('change',()=>setSelectedPhotos(photoInput.files));
+  ['dragenter','dragover'].forEach(type=>photoDrop.addEventListener(type,e=>{e.preventDefault();photoDrop.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(type=>photoDrop.addEventListener(type,e=>{e.preventDefault();photoDrop.classList.remove('dragover');}));
+  async function readDroppedEntry(entry){
+    if(entry.isFile)return new Promise(resolve=>entry.file(file=>{try{Object.defineProperty(file,'name',{value:file.name});}catch{}resolve([file]);},()=>resolve([])));
+    if(entry.isDirectory){const reader=entry.createReader();const all=[];while(true){const batch=await new Promise(resolve=>reader.readEntries(resolve,()=>resolve([])));if(!batch.length)break;for(const child of batch)all.push(...await readDroppedEntry(child));}return all;}
+    return [];
+  }
+  photoDrop.addEventListener('drop',async e=>{
+    const entries=Array.from(e.dataTransfer.items||[]).map(item=>item.webkitGetAsEntry?.()).filter(Boolean);
+    if(entries.length){const files=[];for(const entry of entries)files.push(...await readDroppedEntry(entry));setSelectedPhotos(files);}
+    else setSelectedPhotos(e.dataTransfer.files);
+  });
   el('uploadPhotos').addEventListener('click',async()=>{
-    const files=Array.from(el('photoFiles').files||[]);const eventName=el('photoEvent').value.trim();const titleBase=el('photoTitle').value.trim();const caption=el('photoCaption').value.trim();const status=el('uploadStatus');const button=el('uploadPhotos');
+    const files=selectedPhotoFiles;const eventName=el('photoEvent').value.trim();const titleBase=el('photoTitle').value.trim();const caption=el('photoCaption').value.trim();const status=el('uploadStatus');const button=el('uploadPhotos');
     if(!mediaMembership){status.textContent='Upload access is limited to Media Department members.';return;}
     if(!eventName||!titleBase||!files.length){status.textContent='Add an event, title and at least one photo.';return;}
     const allowed=['image/jpeg','image/png','image/webp','image/gif','image/heic','image/avif'];
@@ -191,7 +218,7 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
         complete++;
       }
       status.textContent='Successfully added '+complete+' photo'+(complete===1?'':'s')+'.';
-      el('photoFiles').value='';await loadPhotos();
+      el('photoFiles').value='';setSelectedPhotos([]);await loadPhotos();
     }catch(uploadErr){status.textContent='Upload stopped: '+(uploadErr?.message||'check your access and try again')+' ('+complete+' completed).';}
     finally{button.disabled=false;}
   });
