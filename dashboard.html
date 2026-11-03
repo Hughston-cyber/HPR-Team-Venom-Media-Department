@@ -181,7 +181,7 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
   function setSelectedPhotos(files){
     selectedPhotoFiles=Array.from(files||[]).filter(f=>f&&f.size>0);
     const label=el('selectedFiles');
-    label.textContent=selectedPhotoFiles.length?selectedPhotoFiles.length+' photo file(s) selected · '+selectedPhotoFiles.reduce((n,f)=>n+f.size,0)/1024/1024 .toFixed(1)+' MB':'No folder selected.';
+    label.textContent=selectedPhotoFiles.length?selectedPhotoFiles.length+' photo file(s) selected · '+(selectedPhotoFiles.reduce((n,f)=>n+f.size,0)/1024/1024).toFixed(1)+' MB':'No folder selected.';
   }
   photoDrop.addEventListener('click',()=>photoInput.click());
   photoDrop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();photoInput.click();}});
