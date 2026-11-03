@@ -178,8 +178,10 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
   let selectedPhotoFiles=[];
   const photoDrop=el('photoDrop');
   const photoInput=el('photoFiles');
-  function setSelectedPhotos(files){
+  function setSelectedPhotos(files,folderName){
     selectedPhotoFiles=Array.from(files||[]).filter(f=>f&&f.size>0);
+    const inferredFolder=folderName||(selectedPhotoFiles[0]?.webkitRelativePath||'').split('/')[0];
+    if(inferredFolder&&!el('photoEvent').value.trim())el('photoEvent').value=inferredFolder;
     const label=el('selectedFiles');
     label.textContent=selectedPhotoFiles.length?selectedPhotoFiles.length+' photo file(s) selected · '+(selectedPhotoFiles.reduce((n,f)=>n+f.size,0)/1024/1024).toFixed(1)+' MB':'No folder selected.';
   }
@@ -195,7 +197,7 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
   }
   photoDrop.addEventListener('drop',async e=>{
     const entries=Array.from(e.dataTransfer.items||[]).map(item=>item.webkitGetAsEntry?.()).filter(Boolean);
-    if(entries.length){const files=[];for(const entry of entries)files.push(...await readDroppedEntry(entry));setSelectedPhotos(files);}
+    if(entries.length){const files=[];for(const entry of entries)files.push(...await readDroppedEntry(entry));const folder=entries.length===1&&entries[0].isDirectory?entries[0].name:'';setSelectedPhotos(files,folder);}
     else setSelectedPhotos(e.dataTransfer.files);
   });
   el('uploadPhotos').addEventListener('click',async()=>{
