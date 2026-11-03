@@ -45,7 +45,8 @@ body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.18;background-
   function showSigned(profile) {
     $('loginPanel').classList.add('hidden');
     $('signedPanel').classList.remove('hidden');
-    $('signedText').textContent = 'Signed in as '+(profile.full_name || profile.email || 'Team Venom member')+'. Your Viper AI membership is approved. The dedicated members area will be added separately.';
+    $('signedText').textContent = 'Membership verified for '+(profile.full_name || profile.email || 'Team Venom member')+'. Opening the Media Department dashboard…';
+    window.location.replace('dashboard.html');
   }
   async function checkSession(session) {
     if (!session) return;
