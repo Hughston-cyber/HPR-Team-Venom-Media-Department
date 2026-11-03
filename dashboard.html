@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080c0a">
+<meta name="description" content="Private Team Venom HPR Media Department member dashboard.">
+<title>MEDIA CONTROL // TEAM VENOM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c0a;--panel:#101713;--panel2:#141e17;--line:#29372e;--green:#b9ed5b;--text:#eaf0e9;--muted:#8c9b8f;--mono:"IBM Plex Mono",monospace;--display:"Barlow Condensed",Impact,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 78% -18%,#263b29 0,transparent 38%),var(--bg);color:var(--text);font:14px/1.5 system-ui,sans-serif}body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.18;background-image:linear-gradient(#b9ed5b0b 1px,transparent 1px),linear-gradient(90deg,#b9ed5b0b 1px,transparent 1px);background-size:42px 42px}
+a{color:inherit;text-decoration:none}.topline{height:4px;background:linear-gradient(90deg,var(--green),#4e8120 55%,transparent)}.shell{max-width:1320px;margin:auto;padding:0 28px}
+header{position:sticky;top:0;z-index:10;background:#080c0aeb;backdrop-filter:blur(16px);border-bottom:1px solid #29372e}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:12px}.mark{width:39px;height:39px;display:grid;place-items:center;background:var(--green);color:#10170c;font:900 27px var(--display);clip-path:polygon(0 0,100% 0,100% 73%,73% 100%,0 100%)}.brand strong{font:800 22px/.9 var(--display);letter-spacing:.08em}.brand small{display:block;color:var(--green);font:9px var(--mono);letter-spacing:.14em;margin-top:6px}.navright{display:flex;align-items:center;gap:16px}.user{font:10px var(--mono);color:var(--muted);text-align:right}.user b{display:block;color:var(--green);font-weight:500}.signout{border:1px solid #435246;background:transparent;color:var(--text);padding:10px 13px;font:10px var(--mono);cursor:pointer}.signout:hover{border-color:var(--green);color:var(--green)}
+main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:30px}.eyebrow{font:500 10px var(--mono);letter-spacing:.18em;color:var(--green)}h1{font:800 clamp(38px,6vw,65px)/.9 var(--display);letter-spacing:.01em;text-transform:uppercase;margin:12px 0}.welcome p{color:var(--muted);font-size:13px;margin:0}.live{font:10px var(--mono);color:var(--green);border:1px solid #b9ed5b55;padding:9px 12px;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:34px}.stat{border:1px solid var(--line);background:#101713bb;padding:17px 19px}.stat strong{font:700 25px var(--display);display:block;color:var(--green);text-transform:uppercase}.stat span{font:9px var(--mono);letter-spacing:.13em;color:var(--muted)}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:36px 0 16px}.sectionhead h2{font:700 26px var(--display);text-transform:uppercase;margin:5px 0 0}.sectionhead p{font-size:11px;color:var(--muted);margin:0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.card{position:relative;display:flex;flex-direction:column;min-height:220px;padding:22px;background:linear-gradient(145deg,#141e17,#0d120f);border:1px solid var(--line);transition:.2s;overflow:hidden}.card:hover{border-color:#b9ed5b99;transform:translateY(-3px)}.card:after{content:attr(data-no);position:absolute;right:10px;bottom:-32px;font:900 125px var(--display);color:#b9ed5b09;pointer-events:none}.cardtop{display:flex;justify-content:space-between;align-items:center}.icon{width:39px;height:39px;border:1px solid #b9ed5b66;color:var(--green);display:grid;place-items:center;font-size:18px}.arrow{color:var(--green);font-size:18px}.card h3{font:700 25px var(--display);text-transform:uppercase;margin:24px 0 6px}.card p{font-size:11px;line-height:1.7;color:var(--muted);margin:0;max-width:300px}.cardfoot{margin-top:auto;padding-top:19px;font:9px var(--mono);letter-spacing:.1em;color:var(--green)}
+.lower{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:30px}.panel{border:1px solid var(--line);background:#101713;padding:22px;min-height:210px}.panel h3{font:700 24px var(--display);text-transform:uppercase;margin:0 0 14px}.announcement{padding:13px 0;border-top:1px solid var(--line)}.announcement:first-of-type{border-top:0}.announcement b{display:block;font-size:12px}.announcement span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.empty{color:var(--muted);font-size:11px;line-height:1.7}.quicklinks{display:grid;gap:9px}.quicklinks a{border:1px solid var(--line);padding:11px 12px;font:10px var(--mono);color:#c7d1c8;display:flex;justify-content:space-between}.quicklinks a:hover{border-color:var(--green);color:var(--green)}
+.notice{margin-top:18px;padding:13px 15px;border-left:2px solid var(--green);background:#b9ed5b0b;color:var(--muted);font-size:10px;line-height:1.7}.notice b{color:var(--green)}footer{border-top:1px solid var(--line);padding:23px 0 35px;color:#718074;font:9px var(--mono);letter-spacing:.1em;display:flex;justify-content:space-between;gap:15px}.blocked{max-width:520px;margin:15vh auto;padding:30px;border:1px solid var(--line);background:var(--panel);text-align:center}.blocked h1{font-size:38px}.blocked p{color:var(--muted);font-size:12px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.lower{grid-template-columns:1fr}}@media(max-width:560px){.shell{padding:0 17px}.nav{height:65px}.user{display:none}.welcome{display:block}.live{display:inline-block;margin-top:18px}.stats{gap:7px}.stat{padding:12px}.stat strong{font-size:20px}.stat span{font-size:8px}.grid{grid-template-columns:1fr}.card{min-height:190px}.sectionhead{display:block}.sectionhead p{margin-top:6px}footer{display:block}footer span{display:block;margin-top:8px}}
+</style>
+</head>
+<body>
+<div class="topline"></div>
+<div id="loading" class="blocked"><div class="eyebrow">MEMBER GATE // VERIFYING</div><h1>Checking access.</h1><p>Verifying your Team Venom account and membership approval…</p></div>
+<div id="denied" class="blocked" hidden><div class="eyebrow">ACCESS CONTROL // 403</div><h1>Access <span style="color:var(--green)">denied.</span></h1><p id="deniedText">This page is for approved Team Venom members.</p><p><a href="login.html" style="color:var(--green)">Return to member login →</a></p></div>
+<div id="app" hidden>
+<header><div class="shell nav"><a class="brand" href="index.html"><span class="mark">V</span><span><strong>TEAM VENOM</strong><small>HPR // MEDIA DEPARTMENT</small></span></a><div class="navright"><div class="user"><b id="memberName">MEMBER</b><span id="memberRole">APPROVED MEMBER</span></div><button class="signout" id="signOut">SIGN OUT ↗</button></div></div></header>
+<main class="shell">
+<section class="welcome"><div><div class="eyebrow">MEDIA OPERATIONS // PRIVATE WORKSPACE</div><h1>Command <span style="color:var(--green)">centre.</span></h1><p>Welcome back. This is your workspace for the stories, content and creative output behind Team Venom.</p></div><div class="live">● MEMBER SESSION ACTIVE</div></section>
+<div class="stats"><div class="stat"><strong>2026</strong><span>SEASON ARCHIVE</span></div><div class="stat"><strong>TEAM 355</strong><span>TEAM VENOM HPR</span></div><div class="stat"><strong>MEDIA</strong><span>DEPARTMENT ACCESS</span></div></div>
+<div class="sectionhead"><div><div class="eyebrow">01 // YOUR WORKSPACE</div><h2>Media departments</h2></div><p>Choose a workspace to explore</p></div>
+<div class="grid">
+<a class="card" href="#photography" data-no="01"><div class="cardtop"><span class="icon">▧</span><span class="arrow">↗</span></div><h3>Photography</h3><p>Race-day galleries, team portraits, behind-the-scenes moments and selected photo collections.</p><span class="cardfoot">OPEN PHOTO ARCHIVE →</span></a>
+<a class="card" href="#video" data-no="02"><div class="cardtop"><span class="icon">▶</span><span class="arrow">↗</span></div><h3>Video production</h3><p>Highlight films, event recaps, interviews, edits and production projects.</p><span class="cardfoot">OPEN VIDEO LIBRARY →</span></a>
+<a class="card" href="#design" data-no="03"><div class="cardtop"><span class="icon">✳</span><span class="arrow">↗</span></div><h3>Graphics & design</h3><p>Posters, campaign artwork, team branding, presentations and digital assets.</p><span class="cardfoot">OPEN DESIGN STUDIO →</span></a>
+<a class="card" href="#communications" data-no="04"><div class="cardtop"><span class="icon">⌁</span><span class="arrow">↗</span></div><h3>Communications</h3><p>Weekly bulletins, announcements, event information and team publications.</p><span class="cardfoot">OPEN COMMS DESK →</span></a>
+<a class="card" href="#archive" data-no="05"><div class="cardtop"><span class="icon">▤</span><span class="arrow">↗</span></div><h3>Media archive</h3><p>Organised season records, approved media resources and the department library.</p><span class="cardfoot">BROWSE ARCHIVE →</span></a>
+<a class="card" href="#racecoverage" data-no="06"><div class="cardtop"><span class="icon">⌖</span><span class="arrow">↗</span></div><h3>Race coverage</h3><p>Coverage planning, event assignments, media checklists and race-day coordination.</p><span class="cardfoot">VIEW COVERAGE →</span></a>
+</div>
+<div class="lower">
+<section class="panel"><div class="eyebrow">02 // TEAM FEED</div><h3>Latest announcements</h3><div id="announcements"><p class="empty">Loading approved team announcements…</p></div></section>
+<section class="panel"><div class="eyebrow">03 // QUICK ACCESS</div><h3>Department links</h3><div class="quicklinks"><a href="index.html">PUBLIC MEDIA WEBSITE <span>↗</span></a><a href="https://hughston-cyber.github.io/Viper-AI/">VIPER AI TEAM HUB <span>↗</span></a><a href="mailto:teamvenom.media@example.com">CONTACT MEDIA DEPARTMENT <span>↗</span></a></div><div class="notice"><b>WORKSPACE STATUS:</b> Dashboard access is live. Media libraries and upload workflows will appear here as they are connected to protected storage.</div></section>
+</div>
+</main>
+<footer class="shell"><span>TEAM VENOM HPR · MEDIA DEPARTMENT</span><span>PRIVATE MEMBER WORKSPACE // 2026</span></footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(async()=>{
+ const client=window.supabase.createClient('https://kzazuetxlklmyyrcvgif.supabase.co','sb_publishable_sqN8XOmc9fzf0YJ1Xx0Vhw_38cmCyKR');
+ const el=id=>document.getElementById(id);
+ const deny=(msg)=>{el('loading').hidden=true;el('denied').hidden=false;el('deniedText').textContent=msg;};
+ try{
+  const {data:userData,error:userError}=await client.auth.getUser();
+  if(userError||!userData.user){deny('Your session is missing or has expired. Please sign in again.');return;}
+  const {data:profile,error:profileError}=await client.from('profiles').select('id,full_name,email,status,role').eq('id',userData.user.id).single();
+  if(profileError||!profile){deny('We could not verify your Team Venom membership profile. Please contact the Team Captain.');return;}
+  if(profile.status!=='approved'){await client.auth.signOut();deny('Your account is not currently approved for member access.');return;}
+  el('memberName').textContent=(profile.full_name||profile.email||'TEAM MEMBER').toUpperCase();
+  el('memberRole').textContent=(profile.role||'member').toUpperCase()+' // APPROVED';
+  el('loading').hidden=true;el('app').hidden=false;
+  const {data:items,error:feedError}=await client.from('team_announcements').select('title,body,category,created_at,pinned').eq('status','published').order('pinned',{ascending:false}).order('created_at',{ascending:false}).limit(5);
+  const feed=el('announcements');feed.replaceChildren();
+  if(feedError){const p=document.createElement('p');p.className='empty';p.textContent='Announcements are temporarily unavailable.';feed.append(p);}
+  else if(!items||!items.length){const p=document.createElement('p');p.className='empty';p.textContent='No published announcements yet. New team notices will appear here.';feed.append(p);}
+  else items.forEach(item=>{const row=document.createElement('div');row.className='announcement';const title=document.createElement('b');title.textContent=(item.pinned?'📌 ':'')+item.title;const body=document.createElement('span');body.textContent=item.body;row.append(title,body);feed.append(row);});
+ }catch(err){deny('Unable to verify access right now. Please try signing in again.');}
+ el('signOut').addEventListener('click',async()=>{await client.auth.signOut();window.location.replace('login.html');});
+ client.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT')window.location.replace('login.html');});
+})();
+</script>
+</body></html>
