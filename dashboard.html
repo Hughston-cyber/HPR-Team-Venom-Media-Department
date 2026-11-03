@@ -283,7 +283,7 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
     }catch(uploadErr){status.textContent='Upload stopped: '+(uploadErr?.message||'check your access and try again')+' ('+complete+' completed).';}
     finally{button.disabled=false;}
   });
-  await loadPhotos();
+  await Promise.all([loadPhotos(),loadVideos()]);
  }catch(err){deny('Unable to verify access right now. Please try signing in again.');}
  el('signOut').addEventListener('click',async()=>{await client.auth.signOut();window.location.replace('login.html');});
  client.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT')window.location.replace('login.html');});
