@@ -18,6 +18,30 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 .lower{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:30px}.panel{border:1px solid var(--line);background:#101713;padding:22px;min-height:210px}.panel h3{font:700 24px var(--display);text-transform:uppercase;margin:0 0 14px}.announcement{padding:13px 0;border-top:1px solid var(--line)}.announcement:first-of-type{border-top:0}.announcement b{display:block;font-size:12px}.announcement span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.empty{color:var(--muted);font-size:11px;line-height:1.7}.quicklinks{display:grid;gap:9px}.quicklinks a{border:1px solid var(--line);padding:11px 12px;font:10px var(--mono);color:#c7d1c8;display:flex;justify-content:space-between}.quicklinks a:hover{border-color:var(--green);color:var(--green)}
 .notice{margin-top:18px;padding:13px 15px;border-left:2px solid var(--green);background:#b9ed5b0b;color:var(--muted);font-size:10px;line-height:1.7}.notice b{color:var(--green)}footer{border-top:1px solid var(--line);padding:23px 0 35px;color:#718074;font:9px var(--mono);letter-spacing:.1em;display:flex;justify-content:space-between;gap:15px}.blocked{max-width:520px;margin:15vh auto;padding:30px;border:1px solid var(--line);background:var(--panel);text-align:center}.blocked h1{font-size:38px}.blocked p{color:var(--muted);font-size:12px}
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.lower{grid-template-columns:1fr}}@media(max-width:560px){.shell{padding:0 17px}.nav{height:65px}.user{display:none}.welcome{display:block}.live{display:inline-block;margin-top:18px}.stats{gap:7px}.stat{padding:12px}.stat strong{font-size:20px}.stat span{font-size:8px}.grid{grid-template-columns:1fr}.card{min-height:190px}.sectionhead{display:block}.sectionhead p{margin-top:6px}footer{display:block}footer span{display:block;margin-top:8px}}
+
+.media-tools{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.media-form{display:grid;gap:12px}
+.media-form label,.media-admin label{display:block;font:9px var(--mono);letter-spacing:.12em;color:#a8b6aa;margin-bottom:6px}
+.media-form input,.media-form textarea,.media-admin select{width:100%;padding:12px;border:1px solid #3b4c40;background:#080e0a;color:var(--text);font:12px system-ui;border-radius:2px}
+.media-form input:focus,.media-form textarea:focus,.media-admin select:focus{outline:1px solid var(--green);border-color:var(--green)}
+.media-form textarea{min-height:72px;resize:vertical}
+.media-btn{padding:12px 15px;background:var(--green);border:1px solid var(--green);color:#10170c;font:700 10px var(--mono);letter-spacing:.1em;cursor:pointer}
+.media-btn:disabled{opacity:.5;cursor:wait}
+.media-status{min-height:18px;color:var(--green);font:10px var(--mono)}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
+.photo-card{border:1px solid var(--line);background:#080e0a;overflow:hidden}
+.photo-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#141e17}
+.photo-meta{padding:11px}
+.photo-meta b{display:block;font:700 18px var(--display);text-transform:uppercase}
+.photo-meta span{display:block;color:var(--muted);font:9px var(--mono);margin-top:4px}
+.photo-meta p{font-size:11px;color:#bac6bb;margin:7px 0 0;line-height:1.5}
+.photo-actions{display:flex;gap:10px;padding:0 11px 11px;font:9px var(--mono);color:var(--green)}
+.photo-actions button{border:0;background:none;color:var(--green);font:inherit;cursor:pointer;padding:0}
+.media-admin{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.member-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:11px}
+.member-row button{background:transparent;border:1px solid #536255;color:#d8e1d8;padding:6px 9px;font:9px var(--mono);cursor:pointer}
+@media(max-width:800px){.media-tools{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.gallery{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -45,7 +69,36 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
 
 <div class="sectionhead"><div><div class="eyebrow">04 // MEDIA WORKSPACES</div><h2>Department spaces</h2></div><p>Private areas for the season's media output</p></div>
 <div class="lower" style="margin-top:0">
-<section class="panel" id="photography"><div class="eyebrow">01 // PHOTOGRAPHY</div><h3>Photo archive</h3><p class="empty">The photography workspace is ready for race galleries, team portraits and behind-the-scenes collections. Protected photo storage and gallery uploads are not connected yet.</p></section>
+<section class="panel" id="photography" style="grid-column:1/-1">
+<div class="eyebrow">01 // PHOTOGRAPHY</div><h3>Private photo archive</h3>
+<p class="empty">Race-day galleries, team portraits and behind-the-scenes collections. Approved members can view; designated Media Department members can upload.</p>
+<div id="mediaUploader" hidden>
+<div class="media-tools">
+<div class="media-form">
+<div><label for="photoEvent">EVENT / ALBUM</label><input id="photoEvent" maxlength="100" placeholder="e.g. Sandown 2026"></div>
+<div><label for="photoTitle">PHOTO TITLE</label><input id="photoTitle" maxlength="160" placeholder="e.g. Grid preparation"></div>
+<div><label for="photoCaption">CAPTION (OPTIONAL)</label><textarea id="photoCaption" maxlength="1000" placeholder="Add a little context to this collection…"></textarea></div>
+<div><label for="photoFiles">SELECT PHOTOS (JPG, PNG, WEBP, GIF, HEIC, AVIF · MAX 25 MB EACH)</label><input id="photoFiles" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/avif" multiple></div>
+<button class="media-btn" id="uploadPhotos" type="button">UPLOAD TO PRIVATE ARCHIVE ↗</button>
+<div class="media-status" id="uploadStatus" aria-live="polite"></div>
+</div>
+<div class="panel" style="min-height:0;padding:17px"><div class="eyebrow">UPLOAD ACCESS</div><h3 style="font-size:21px">Media members only.</h3><p class="empty">Files are stored in a private bucket. Upload permission is checked by database policies, and each photo is displayed using a temporary secure link.</p><p class="empty">Use a clear event name so the archive stays organised across the season.</p></div>
+</div>
+</div>
+<div id="mediaNoUpload" class="notice">VIEW MODE // Uploading is restricted to designated Media Department members.</div>
+<div class="sectionhead"><div><div class="eyebrow">ARCHIVE // 01</div><h2>Latest photographs</h2></div><p id="photoCount">Loading archive…</p></div>
+<div id="photoGallery" class="gallery"><p class="empty">Loading private photo archive…</p></div>
+<div id="mediaAdmin" class="media-admin" hidden>
+<div class="eyebrow">CAPTAIN CONTROLS // ACCESS MANAGEMENT</div><h3 style="font-size:21px">Media Department membership</h3>
+<p class="empty">Grant or revoke upload access. This does not change a member's Team Venom account role.</p>
+<div style="display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin:12px 0">
+<div style="flex:1;min-width:220px"><label for="mediaMemberSelect">APPROVED TEAM MEMBER</label><select id="mediaMemberSelect"><option value="">Loading approved members…</option></select></div>
+<button class="media-btn" id="grantMediaAccess" type="button">GRANT UPLOAD ACCESS</button>
+</div>
+<div id="mediaMembersList"><p class="empty">Loading Media Department members…</p></div>
+<div class="media-status" id="mediaAdminStatus" aria-live="polite"></div>
+</div>
+</section>
 <section class="panel" id="video"><div class="eyebrow">02 // VIDEO PRODUCTION</div><h3>Video library</h3><p class="empty">The video workspace is ready for race highlights, event recaps and production edits. Protected video storage and publishing tools are not connected yet.</p></section>
 <section class="panel" id="design"><div class="eyebrow">03 // GRAPHICS & DESIGN</div><h3>Design studio</h3><p class="empty">The design workspace is ready for posters, campaign artwork, presentations and team assets. A private asset library will be connected here.</p></section>
 <section class="panel" id="communications"><div class="eyebrow">04 // COMMUNICATIONS</div><h3>Comms desk</h3><p class="empty">The communications workspace is ready for bulletins, announcements and media releases. Published team announcements are shown in the feed above.</p></section>
@@ -75,6 +128,74 @@ main{padding:42px 0 70px}.welcome{display:flex;justify-content:space-between;ali
   if(feedError){const p=document.createElement('p');p.className='empty';p.textContent='Announcements are temporarily unavailable.';feed.append(p);}
   else if(!items||!items.length){const p=document.createElement('p');p.className='empty';p.textContent='No published announcements yet. New team notices will appear here.';feed.append(p);}
   else items.forEach(item=>{const row=document.createElement('div');row.className='announcement';const title=document.createElement('b');title.textContent=(item.pinned?'📌 ':'')+item.title;const body=document.createElement('span');body.textContent=item.body;row.append(title,body);feed.append(row);});
+
+  // Private photo archive: visibility and upload rights are enforced by Supabase RLS.
+  const mediaBucket='team-venom-media';
+  const isMediaAdmin=['captain','leadership'].includes(profile.role);
+  const {data:mediaMembership}=await client.from('media_department_members').select('user_id').eq('user_id',userData.user.id).maybeSingle();
+  if(mediaMembership){el('mediaUploader').hidden=false;el('mediaNoUpload').hidden=true;}
+  if(isMediaAdmin){el('mediaAdmin').hidden=false;await loadMediaAdmin();}
+  async function loadMediaAdmin(){
+    const select=el('mediaMemberSelect');select.replaceChildren(new Option('Choose an approved member…',''));
+    const {data:profiles,error:pErr}=await client.from('profiles').select('id,full_name,email').eq('status','approved').order('full_name');
+    const {data:members,error:mErr}=await client.from('media_department_members').select('user_id,created_at');
+    if(pErr||mErr){el('mediaMembersList').textContent='Unable to load membership controls.';return;}
+    const memberIds=new Set((members||[]).map(m=>m.user_id));
+    (profiles||[]).filter(p=>!memberIds.has(p.id)).forEach(p=>select.add(new Option(p.full_name||p.email||p.id,p.id)));
+    const list=el('mediaMembersList');list.replaceChildren();
+    const byId=new Map((profiles||[]).map(p=>[p.id,p]));
+    if(!members||!members.length){const empty=document.createElement('p');empty.className='empty';empty.textContent='No Media Department upload members assigned yet.';list.append(empty);}
+    (members||[]).forEach(m=>{const row=document.createElement('div');row.className='member-row';const label=document.createElement('span');const person=byId.get(m.user_id);label.textContent=person?(person.full_name||person.email):'Approved member';const remove=document.createElement('button');remove.textContent='REVOKE ACCESS';remove.addEventListener('click',async()=>{remove.disabled=true;const {error}=await client.from('media_department_members').delete().eq('user_id',m.user_id);el('mediaAdminStatus').textContent=error?'Could not revoke access.': 'Upload access revoked.';await loadMediaAdmin();});row.append(label,remove);list.append(row);});
+  }
+  el('grantMediaAccess').addEventListener('click',async()=>{const userId=el('mediaMemberSelect').value;if(!userId){el('mediaAdminStatus').textContent='Choose a member first.';return;}const {error}=await client.from('media_department_members').insert({user_id:userId,granted_by:userData.user.id});el('mediaAdminStatus').textContent=error?'Could not grant access. Check captain permissions.':'Media upload access granted.';await loadMediaAdmin();});
+  async function loadPhotos(){
+    const gallery=el('photoGallery');gallery.replaceChildren();
+    const {data:photos,error}=await client.from('media_photos').select('id,event_name,title,caption,object_path,uploaded_by,created_at').order('created_at',{ascending:false}).limit(120);
+    if(error){gallery.textContent='The private photo archive could not be loaded.';el('photoCount').textContent='Unavailable';return;}
+    el('photoCount').textContent=(photos?.length||0)+' PHOTOS';
+    if(!photos||!photos.length){const p=document.createElement('p');p.className='empty';p.textContent='No photos have been uploaded yet. The first race gallery is ready to go.';gallery.append(p);return;}
+    for(const photo of photos){
+      const {data:signed,error:signError}=await client.storage.from(mediaBucket).createSignedUrl(photo.object_path,3600);
+      if(signError||!signed)continue;
+      const card=document.createElement('article');card.className='photo-card';
+      const img=document.createElement('img');img.loading='lazy';img.src=signed.signedUrl;img.alt=photo.title;
+      const meta=document.createElement('div');meta.className='photo-meta';
+      const title=document.createElement('b');title.textContent=photo.title;
+      const event=document.createElement('span');event.textContent=photo.event_name+' · '+new Date(photo.created_at).toLocaleDateString('en-AU');
+      meta.append(title,event);
+      if(photo.caption){const caption=document.createElement('p');caption.textContent=photo.caption;meta.append(caption);}
+      const actions=document.createElement('div');actions.className='photo-actions';
+      const open=document.createElement('a');open.href=signed.signedUrl;open.target='_blank';open.rel='noopener';open.textContent='VIEW ORIGINAL ↗';
+      actions.append(open);
+      if(photo.uploaded_by===userData.user.id||isMediaAdmin){const del=document.createElement('button');del.textContent='DELETE';del.addEventListener('click',async()=>{if(!confirm('Delete this photo from the archive?'))return;del.disabled=true;const {error:removeError}=await client.storage.from(mediaBucket).remove([photo.object_path]);if(removeError){del.disabled=false;alert('Could not delete this photo.');return;}const {error:rowError}=await client.from('media_photos').delete().eq('id',photo.id);if(rowError){alert('The file was removed, but its archive entry could not be deleted. Contact an administrator.');}await loadPhotos();});actions.append(del);}
+      card.append(img,meta,actions);gallery.append(card);
+    }
+  }
+  el('uploadPhotos').addEventListener('click',async()=>{
+    const files=Array.from(el('photoFiles').files||[]);const eventName=el('photoEvent').value.trim();const titleBase=el('photoTitle').value.trim();const caption=el('photoCaption').value.trim();const status=el('uploadStatus');const button=el('uploadPhotos');
+    if(!mediaMembership){status.textContent='Upload access is limited to Media Department members.';return;}
+    if(!eventName||!titleBase||!files.length){status.textContent='Add an event, title and at least one photo.';return;}
+    const allowed=['image/jpeg','image/png','image/webp','image/gif','image/heic','image/avif'];
+    if(files.some(file=>!allowed.includes(file.type)||file.size>25*1024*1024)){status.textContent='One or more files are unsupported or larger than 25 MB.';return;}
+    button.disabled=true;let complete=0;
+    try{
+      for(let i=0;i<files.length;i++){
+        const file=files[i];const ext=(file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'')||'jpg';
+        const path=userData.user.id+'/'+crypto.randomUUID()+'.'+ext;
+        status.textContent='Uploading '+(i+1)+' of '+files.length+'…';
+        const {error:uploadError}=await client.storage.from(mediaBucket).upload(path,file,{contentType:file.type,upsert:false});
+        if(uploadError)throw uploadError;
+        const photoTitle=files.length===1?titleBase:titleBase+' ('+(i+1)+')';
+        const {error:insertError}=await client.from('media_photos').insert({event_name:eventName,title:photoTitle,caption,object_path:path,uploaded_by:userData.user.id});
+        if(insertError){await client.storage.from(mediaBucket).remove([path]);throw insertError;}
+        complete++;
+      }
+      status.textContent='Successfully added '+complete+' photo'+(complete===1?'':'s')+'.';
+      el('photoFiles').value='';await loadPhotos();
+    }catch(uploadErr){status.textContent='Upload stopped: '+(uploadErr?.message||'check your access and try again')+' ('+complete+' completed).';}
+    finally{button.disabled=false;}
+  });
+  await loadPhotos();
  }catch(err){deny('Unable to verify access right now. Please try signing in again.');}
  el('signOut').addEventListener('click',async()=>{await client.auth.signOut();window.location.replace('login.html');});
  client.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT')window.location.replace('login.html');});
