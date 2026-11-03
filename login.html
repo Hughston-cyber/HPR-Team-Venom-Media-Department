@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080c0a">
+<title>Member Login // Team Venom Media</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080c0a;--panel:#101713;--line:#29372e;--green:#b9ed5b;--text:#eaf0e9;--muted:#8c9b8f;--mono:"IBM Plex Mono",ui-monospace,monospace;--display:"Barlow Condensed",Impact,sans-serif}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 70% -20%,#263b29 0,transparent 42%),var(--bg);color:var(--text);font:14px/1.5 system-ui,sans-serif;display:grid;place-items:center;padding:24px}
+body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.18;background-image:linear-gradient(#b9ed5b0b 1px,transparent 1px),linear-gradient(90deg,#b9ed5b0b 1px,transparent 1px);background-size:42px 42px}
+.wrap{width:min(100%,460px)}.brand{display:flex;align-items:center;gap:13px;margin-bottom:25px}.mark{width:44px;height:44px;display:grid;place-items:center;background:var(--green);color:#10170c;font:800 29px var(--display);clip-path:polygon(0 0,100% 0,100% 73%,73% 100%,0 100%)}.brand h1{font:800 28px/.95 var(--display);letter-spacing:.07em;margin:0}.brand small{display:block;color:var(--green);font:500 9px var(--mono);letter-spacing:.16em;margin-top:7px}
+.panel{border:1px solid #3b4c40;background:#101713;box-shadow:0 24px 80px #0007}.panel-head{padding:23px 25px 18px;border-bottom:1px solid var(--line)}.eyebrow{font:500 9px var(--mono);letter-spacing:.18em;color:var(--green)}h2{font:700 32px/.95 var(--display);text-transform:uppercase;margin:10px 0}.intro{color:var(--muted);font-size:12px;margin:0}.form{padding:23px 25px}.field{margin-bottom:16px}label{display:block;font:500 9px var(--mono);letter-spacing:.12em;color:#a8b6aa;margin-bottom:7px}input{width:100%;padding:13px 12px;border:1px solid #3b4c40;background:#080e0a;color:var(--text);border-radius:3px;outline:none;font:13px system-ui}input:focus{border-color:var(--green);box-shadow:0 0 0 2px #b9ed5b18}.submit{width:100%;padding:13px;border:1px solid var(--green);background:var(--green);color:#10170c;font:700 11px var(--mono);letter-spacing:.12em;cursor:pointer;margin-top:4px}.submit:hover{filter:brightness(1.08)}.submit:disabled{opacity:.55;cursor:wait}.message{min-height:22px;margin-top:14px;font-size:11px;color:var(--green);line-height:1.6}.message.error{color:#ff8980}.message.warn{color:#f0c86f}.foot{display:flex;justify-content:space-between;gap:12px;padding:15px 25px;border-top:1px solid var(--line);font:9px var(--mono);letter-spacing:.08em;color:#748276}.foot a{color:var(--green);text-decoration:none}.foot a:hover{text-decoration:underline}.security{margin:15px 0 0;color:#718074;font:9px/1.8 var(--mono);letter-spacing:.05em}.signed{padding:28px 25px}.signed h2{margin-top:0}.signed p{color:var(--muted);font-size:12px;line-height:1.7}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.actions a,.actions button{padding:11px 13px;border:1px solid #3b4c40;background:#141e17;color:var(--text);font:10px var(--mono);text-decoration:none;cursor:pointer}.actions a.primary{background:var(--green);color:#10170c;border-color:var(--green)}.hidden{display:none!important}
+@media(max-width:480px){body{padding:15px}.panel-head,.form,.signed{padding:20px}.foot{padding:14px 20px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+ <a class="brand" href="index.html" style="color:inherit;text-decoration:none"><span class="mark">V</span><span><h1>TEAM VENOM</h1><small>HPR // MEDIA DEPARTMENT</small></span></a>
+ <section class="panel" id="loginPanel">
+  <div class="panel-head"><div class="eyebrow">MEMBER ACCESS // 01</div><h2>Media <span style="color:var(--green)">portal.</span></h2><p class="intro">Sign in using your existing Team Venom Viper AI account.</p></div>
+  <form class="form" id="loginForm">
+   <div class="field"><label for="email">EMAIL ADDRESS</label><input id="email" type="email" autocomplete="username" required></div>
+   <div class="field"><label for="password">PASSWORD</label><input id="password" type="password" autocomplete="current-password" required></div>
+   <button class="submit" id="submit" type="submit">AUTHENTICATE →</button>
+   <div class="message" id="message" role="status" aria-live="polite"></div>
+  </form>
+  <div class="foot"><a href="index.html">← BACK TO MEDIA HOME</a><span>SECURE AUTHENTICATION</span></div>
+ </section>
+ <section class="panel hidden" id="signedPanel">
+  <div class="signed"><div class="eyebrow">AUTHENTICATED SESSION</div><h2>Access <span style="color:var(--green)">verified.</span></h2><p id="signedText">Your Team Venom account has been authenticated.</p><div class="actions"><a class="primary" href="index.html">RETURN TO MEDIA HOME ↗</a><button id="signOut" type="button">SIGN OUT</button></div></div>
+ </section>
+ <p class="security">TEAM VENOM HPR · MEDIA DEPARTMENT<br>ACCOUNT ACCESS IS VERIFIED AGAINST THE EXISTING VIPER AI MEMBERSHIP PROFILE.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(() => {
+  const SUPABASE_URL = 'https://kzazuetxlklmyyrcvgif.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_sqN8XOmc9fzf0YJ1Xx0Vhw_38cmCyKR';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const $ = id => document.getElementById(id);
+  const message = (text, type='') => { $('message').textContent=text; $('message').className='message '+type; };
+  function showSigned(profile) {
+    $('loginPanel').classList.add('hidden');
+    $('signedPanel').classList.remove('hidden');
+    $('signedText').textContent = 'Signed in as '+(profile.full_name || profile.email || 'Team Venom member')+'. Your Viper AI membership is approved. The dedicated members area will be added separately.';
+  }
+  async function checkSession(session) {
+    if (!session) return;
+    message('Checking your Team Venom membership…');
+    try {
+      const { data, error } = await supabase.from('profiles').select('id,full_name,email,status,role').eq('id',session.user.id).single();
+      if (error) throw error;
+      if (!data || data.status !== 'approved') {
+        await supabase.auth.signOut();
+        message('Your account is not currently approved for member access. Please contact the Team Captain.', 'warn');
+        return;
+      }
+      showSigned(data);
+    } catch (error) {
+      message('Sign-in succeeded, but the membership profile could not be verified: '+error.message, 'error');
+    }
+  }
+  $('loginForm').addEventListener('submit', async event => {
+    event.preventDefault();
+    $('submit').disabled = true;
+    message('Authenticating with Supabase…');
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: $('email').value.trim(),
+        password: $('password').value
+      });
+      if (error) throw error;
+      await checkSession(data.session);
+    } catch (error) {
+      message(error.message || 'Unable to sign in. Check your details and try again.', 'error');
+    } finally {
+      $('submit').disabled = false;
+    }
+  });
+  $('signOut').addEventListener('click', async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) message(error.message, 'error');
+    $('signedPanel').classList.add('hidden');
+    $('loginPanel').classList.remove('hidden');
+    $('password').value = '';
+    message('You have signed out.');
+  });
+  supabase.auth.getSession().then(({data,error}) => {
+    if (error) message(error.message, 'error');
+    else checkSession(data.session);
+  });
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT') {
+      $('signedPanel').classList.add('hidden');
+      $('loginPanel').classList.remove('hidden');
+    }
+  });
+})();
+</script>
+</body>
+</html>
